@@ -1,0 +1,47 @@
+﻿@page
+@model TasksManagementSystem.WebApp.Pages.Employee.IndexModel
+@{
+    ViewData["Title"] = "Tasks Grouped by Projects";
+}
+
+<h2 class="mb-4">Tasks Grouped by Projects</h2>
+
+<div class="row">
+    @foreach (var project in Model.Projects)
+    {
+        <div class="col-md-4 mt-4 mb-4">
+            <div class="card shadow border border-primary">
+                <div class="card-body">
+                    <h5 class="card-title">@project.Name</h5>
+
+                    <!-- Limit Description to 200 characters -->
+                    <p class="card-text">
+                        @if (project.Description.Length > 200 && @Model.ShowFullDescripton==false)
+                        {
+                            @project.Description.Substring(0, 200)
+
+                            <span>...</span>
+                            <a href="#" class="text-primary" onclick="()=>@Model.ShowFullDescripton=true">Continue</a>
+                        }
+                        else
+                        {
+                            @project.Description
+                        }
+                    </p>
+
+                    <p><strong>Created By:</strong> @project.CreatedByName (@project.CreatedByEmail)</p>
+                    <p><strong>Number of Tasks:</strong> @project.TasksCount</p>
+
+                    <a asp-page="Tasks/Index" asp-route-projectId="@project.ProjectId" class="btn btn-primary">Show Tasks</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    function showFullDescription(projectId) {
+        alert("Load full description for project ID: " + projectId);
+        // Implement logic to show full description dynamically
+    }
+</script>

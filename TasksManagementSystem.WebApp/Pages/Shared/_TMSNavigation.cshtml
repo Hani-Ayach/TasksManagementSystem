@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TasksManagementSystem.EF.Entities
+
+@inject SignInManager<ApplicationUserEntity> SignInManager
+@inject UserManager<ApplicationUserEntity> UserManager
+
+<ul class="navbar-nav flex-grow-1">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @if (User.IsInRole("ADMIN"))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-page="/Admin/Projects/Index">Projects</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-page="/Admin/Employees/Index">Employees</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-page="/Employee/Index">Projects</a>
+            </li>
+        }
+    }
+</ul>

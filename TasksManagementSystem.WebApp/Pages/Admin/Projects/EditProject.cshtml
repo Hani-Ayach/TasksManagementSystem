@@ -1,0 +1,31 @@
+﻿@page
+@model TasksManagementSystem.WebApp.Pages.Admin.Projects.EditProjectModel
+@{
+    ViewData["Title"] = "Edit Project";
+}
+
+<h2 class="mb-4">Edit Project</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Project.CreatedBy" value="@Model.UserId" />
+    <input type="hidden" asp-for="Project.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Project.Name" class="form-label">Project Name</label>
+        <input asp-for="Project.Name" class="form-control" placeholder="Enter project name">
+        <span asp-validation-for="Project.Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Project.Description" class="form-label">Description</label>
+        <textarea asp-for="Project.Description" class="form-control" rows="3" placeholder="Enter project description"></textarea>
+        <span asp-validation-for="Project.Description" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

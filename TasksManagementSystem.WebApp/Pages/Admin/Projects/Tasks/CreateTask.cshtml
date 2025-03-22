@@ -1,0 +1,45 @@
+﻿@page
+@model TasksManagementSystem.WebApp.Pages.Admin.Projects.Tasks.CreateTaskModel
+@{
+    ViewData["Title"] = "Create Task";
+}
+
+<h2 class="mb-4">Create New Task</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Task.CreatedBy" value="@Model.UserId" />
+    <input type="hidden" asp-for="Task.ProjectId" value="@Model.ProjectId" />
+
+    <div class="mb-3">
+        <label asp-for="Task.Title">Title</label>
+        <input asp-for="Task.Title" class="form-control" />
+        <span asp-validation-for="Task.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.Description">Description</label>
+        <textarea asp-for="Task.Description" class="form-control"></textarea>
+        <span asp-validation-for="Task.Description" class="text-danger"></span>
+    </div>
+
+
+    <div class="mb-3">
+        <label asp-for="Task.AssignedTo">Assign To</label>
+        <select asp-for="Task.AssignedTo" class="form-control">
+            <option value="">-- Select Employee --</option>
+            @foreach (var employee in Model.Employees)
+            {
+                <option value="@employee.Id">@employee.FullName</option>
+
+            }
+        </select>
+        <span asp-validation-for="Task.AssignedTo" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary" asp-route-projectId="@Model.ProjectId">Create Task</button>
+    <a asp-page="Index" class="btn btn-secondary" asp-route-projectId="@Model.ProjectId">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

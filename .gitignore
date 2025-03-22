@@ -1,0 +1,49 @@
+﻿# ASP.NET Core & .NET General Ignore Rules
+bin/
+obj/
+*.user
+*.suo
+*.bak
+*.ncb
+*.log
+*.sql
+*.sqlite
+*.sdf
+*.pdb
+.vscode/
+*.vs/
+*.dbmdl
+*.jfm
+
+# Ignore .NET Core Build Artifacts
+project.lock.json
+project.assets.json
+artifacts/
+
+# Ignore sensitive configuration files
+secrets.json
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+
+# Ignore dependency files
+packages/
+*.nupkg
+*.snupkg
+
+# Ignore Visual Studio files
+.vs/
+*.csproj.user
+*.sln.ide
+.idea/
+*.swp
+
+# Ignore Rider IDE files
+.idea/
+*.sln.DotSettings.user
+
+# Ignore logs, crashes, temporary files
+logs/
+*.log
+crashdumps/
+*.tmp

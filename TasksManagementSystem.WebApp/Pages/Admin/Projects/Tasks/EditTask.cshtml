@@ -1,0 +1,56 @@
+﻿@page
+@model TasksManagementSystem.WebApp.Pages.Admin.Projects.Tasks.EditTaskModel
+@{
+    ViewData["Title"] = "Edit Task";
+}
+
+<h2>Edit @Model.Task.Title Task</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Task.CreatedBy" />
+    <input type="hidden" asp-for="Task.ProjectId" />
+    <input type="hidden" asp-for="Task.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Task.Title">Title</label>
+        <input asp-for="Task.Title" class="form-control" />
+        <span asp-validation-for="Task.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.Description">Description</label>
+        <textarea asp-for="Task.Description" class="form-control"></textarea>
+        <span asp-validation-for="Task.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.Status">Status</label>
+        <select asp-for="Task.Status" class="form-control">
+            <option value="PENDING" class="badge alert-primary">Pending</option>
+            <option value="COMPLETED" class="badge alert-info">Completed</option>
+            <option value="APPROVED" class="badge alert-success">Approved</option>
+            <option value="NOT_APPROVED" class="badge alert-danger">Not Approved</option>
+        </select>
+        <span asp-validation-for="Task.Status" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Task.AssignedTo">Assign To</label>
+        <select asp-for="Task.AssignedTo" class="form-control">
+            <option value="">-- Select Employee --</option>
+            @foreach (var employee in Model.Employees)
+            {
+                <option value="@employee.Id">@employee.FullName</option>
+
+            }
+        </select>
+        <span asp-validation-for="Task.AssignedTo" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary" asp-route-projectId="@Model.Task.ProjectId">Edit Task</button>
+    <a asp-page="Index" class="btn btn-secondary" asp-route-projectId="@Model.Task.ProjectId">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

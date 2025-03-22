@@ -1,0 +1,72 @@
+﻿@page
+@model TasksManagementSystem.WebApp.Pages.Admin.Projects.o.IndexModel
+@{
+    ViewData["Title"] = "Projects";
+    string newSortOrder = Model.SortOrder == "asc" ? "desc" : "asc";
+}
+
+<h2 class="mb-4">Projects</h2>
+
+<!-- Add New Project Button -->
+<a asp-page="CreateProject" class="btn btn-success mb-3">Add New Project</a>
+
+<!-- Sorting Link -->
+<a asp-page="Index" asp-route-sortOrder="@newSortOrder" class="btn btn-secondary mb-3">
+    Sort by Date (@(Model.SortOrder == "asc" ? "Oldest First" : "Newest First"))
+</a>
+
+<!-- Projects Table -->
+<table class="table table-bordered">
+    <thead class="table-primary">
+        <tr>
+
+            <th>Name</th>
+            <th>Creator Name</th>
+            <th>Creator Email</th>
+            <th>
+                <a class="text-dark" asp-page="Index" asp-route-sortOrder="@newSortOrder">
+                    Created At @(Model.SortOrder == "asc" ? "🔼" : "🔽")
+                </a>
+            </th>
+            <th>Tasks Count</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model.ProjectsInfo.Projects)
+        {
+            <tr>
+
+                <td>@project.Name</td>
+                <td>@project.CreatedByName</td>
+                <td>@project.CreatedByEmail</td>
+                <td>@project.CreatedAt.ToString("yyyy-MM-dd")</td>
+                <td>@project.TasksCount</td>
+                <td>
+                    <a asp-page="Tasks/Index" asp-route-projectId="@project.ProjectId" class="btn btn-primary btn-sm">View Tasks</a>
+                    <a asp-page="DisplayProject" asp-route-id="@project.ProjectId" class="btn btn-info btn-sm">View Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination Controls -->
+<nav>
+    <ul class="pagination">
+        <li class="page-item @(Model.PageIndex <= 1 ? "disabled" : "")">
+            <a class="page-link" asp-page="Index" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-sortOrder="@Model.SortOrder">Previous</a>
+        </li>
+
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link" asp-page="Index" asp-route-pageIndex="@i" asp-route-sortOrder="@Model.SortOrder">@i</a>
+            </li>
+        }
+
+        <li class="page-item @(Model.PageIndex >= Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" asp-page="Index" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-sortOrder="@Model.SortOrder">Next</a>
+        </li>
+    </ul>
+</nav>

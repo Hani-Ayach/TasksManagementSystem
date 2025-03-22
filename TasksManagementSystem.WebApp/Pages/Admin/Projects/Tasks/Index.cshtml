@@ -1,0 +1,95 @@
+﻿@page
+@model TasksManagementSystem.WebApp.Pages.Admin.Projects.Tasks.IndexModel
+@{
+    ViewData["Title"] = "Tasks";
+    string newSortOrder = Model.SortOrder == "asc" ? "desc" : "asc";
+}
+
+<h2 class="mb-4">@Model.TasksInfo.ProjectName Tasks</h2>
+
+<!-- Add New Task Button -->
+<a asp-page="CreateTask" asp-route-projectId="@Model.TasksInfo.ProjectId" class="btn btn-success mb-3">Add New Task</a>
+
+<!-- Sorting Link -->
+<a asp-page="Index" asp-route-sortOrder="@newSortOrder" class="btn btn-secondary mb-3" asp-route-projectId="@Model.TasksInfo.ProjectId">
+    Sort by Date (@(Model.SortOrder == "asc" ? "Oldest First" : "Newest First"))
+</a>
+
+<!-- Tasks Table -->
+<table class="table table-bordered">
+    <thead class="table-primary">
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>
+                <a class="text-dark" asp-page="Index" asp-route-sortOrder="@newSortOrder" class="text-white" asp-route-projectId="@Model.TasksInfo.ProjectId">
+                    Created At @(Model.SortOrder == "asc" ? "🔼" : "🔽")
+                </a>
+            </th>
+            <th>Created By</th>
+            <th>Assigned To</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model.TasksInfo.Tasks)
+        {
+            <tr>
+                <td>@task.Title</td>
+                <td>
+                    <span class="badge @(GetStatusClass(task.Status.ToString()))">
+                        @task.Status
+                    </span>
+                </td>
+                <td>@task.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>
+                    @task.CreatedByName <br />
+                    <small class="text-muted">@task.CreatedByEmail</small>
+                </td>
+                <td>
+                    @task.AssignedToName <br />
+                    <small class="text-muted">@task.AssignedToEmail</small>
+                </td>
+                <td>
+                    <a asp-page="DisplayTask" asp-route-id="@task.Id" class="btn btn-info btn-sm">View</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+<!-- Pagination Controls -->
+<nav>
+    <ul class="pagination">
+        <li class="page-item @(Model.PageIndex <= 1 ? "disabled" : "")">
+            <a class="page-link" asp-page="Index" asp-route-projectId="@Model.TasksInfo.ProjectId" asp-route-pageIndex="@(Model.PageIndex - 1)" asp-route-sortOrder="@Model.SortOrder">Previous</a>
+        </li>
+
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link" asp-page="Index" asp-route-projectId="@Model.TasksInfo.ProjectId" asp-route-pageIndex="@i" asp-route-sortOrder="@Model.SortOrder">@i</a>
+            </li>
+        }
+
+        <li class="page-item @(Model.PageIndex >= Model.TotalPages ? "disabled" : "")">
+            <a class="page-link" asp-page="Index" asp-route-projectId="@Model.TasksInfo.ProjectId" asp-route-pageIndex="@(Model.PageIndex + 1)" asp-route-sortOrder="@Model.SortOrder">Next</a>
+        </li>
+    </ul>
+</nav>
+
+@functions {
+    public string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "PENDING" => "alert-primary",
+            "COMPLETED" => "alert-info",
+            "NOT_APPROVED" => "alert-danger",
+            "APPROVED" => "alert-success",
+            _ => "alert-secondary"
+        };
+    }
+}
