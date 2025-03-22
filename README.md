@@ -12,8 +12,7 @@ A Task Mangemenet System for manage employees tasks by Admin
 * 4 Employee sees the "Not Approved" task and works on it again then marks it as Approved → Task is Approved (Final State).
 
 ## Database Diagram
-![alt text](https://github.com/Hani-Ayach/TasksManagementSystem/new/main/databaseDiagram.jpg?raw=true)
-
+![databaseDiagram](https://github.com/user-attachments/assets/eb173b08-e6f3-4ce4-b4d6-c21a5ea1e37b)
 
 ## Executing System
 
